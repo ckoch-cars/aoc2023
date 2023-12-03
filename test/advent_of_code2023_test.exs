@@ -77,4 +77,23 @@ defmodule AdventOfCode2023Test do
 
     assert AdventOfCode2023.day2_two(input) == 59795
   end
+
+  describe "Part2" do
+    test "day3_one test" do
+      input = """
+      467..114..
+      ...*......
+      ..35..633.
+      ......#...
+      617*......
+      .....+.58.
+      ..592.....
+      ......755.
+      ...$.*....
+      .664.598..
+      """
+      assert AdventOfCode2023.Part2.day3_one(input) == 4361
+    end
+
+  end
 end
