@@ -53,7 +53,7 @@ defmodule AdventOfCode2023 do
   end
 
   @int_strings ~w(one two three four five six seven eight nine)
-  def int_string_to_int([int]) when int in @int_strings do
+  defp int_string_to_int([int]) when int in @int_strings do
     case int do
       "one" -> "1"
       "two" -> "2"
@@ -67,6 +67,60 @@ defmodule AdventOfCode2023 do
     end
   end
 
-  def int_string_to_int([int]), do: int
+  defp int_string_to_int([int]), do: int
 
+  def day2_one(input, cubes) do
+    parsed_input = parse(input)
+    filtered = filter_for_cubes(parsed_input, cubes)
+    |> IO.inspect(label: "filtered")
+
+    Enum.reduce(filtered, 0, fn %{game_id: id}, acc -> id + acc end)
+  end
+
+  def day2_two(input) do
+    parsed_input = parse(input)
+    Enum.reduce(parsed_input, 0, fn %{maxes: maxes}, acc ->
+      acc + Map.get(maxes, :red) * Map.get(maxes, :blue) * Map.get(maxes, :green)
+    end)
+    |> IO.inspect(label: "")
+    # filtered = filter_for_cubes(parsed_input, cubes)
+    # |> IO.inspect(label: "filtered")
+
+    # Enum.reduce(filtered, 0, fn %{game_id: id}, acc -> id + acc end)
+  end
+
+  defp parse(input) do
+    input
+    |> String.trim_trailing()
+    |> String.split("\n")
+    |> Enum.map(fn row ->
+      [game, tail] = String.split(row, ": ")
+      game_id = game |> String.replace_prefix("Game ", "") |> String.to_integer()
+      draws = String.split(tail, "; ")
+      maxes = Enum.reduce(draws, %{red: 0, green: 0, blue: 0}, fn draw, acc ->
+        values = String.split(draw, ", ")
+        Enum.reduce(values, acc, fn val, acc ->
+          [number, color] = String.split(val, " ")
+            Map.update(acc, String.to_atom(color), 0, fn curr ->
+              num = String.to_integer(number)
+              if num > curr do
+                num
+              else
+                curr
+              end
+            end)
+        end)
+      end)
+      %{game_id: game_id, maxes: maxes, game: draws}
+    end)
+  end
+
+  defp filter_for_cubes(parsed_input, limits) do
+    Enum.filter(parsed_input, fn %{maxes: maxes} ->
+      Map.get(maxes, :red) <= Map.get(limits, :red) and
+        Map.get(maxes, :blue) <= Map.get(limits, :blue) and
+        Map.get(maxes, :green) <= Map.get(limits, :green)
+    end)
+
+  end
 end
