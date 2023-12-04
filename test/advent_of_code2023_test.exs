@@ -67,8 +67,6 @@ defmodule AdventOfCode2023Test do
     Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
     """
 
-    # cubes = %{red: 12, green: 13, blue: 14}
-
     assert AdventOfCode2023.day2_two(input) == 2286
   end
 
@@ -93,6 +91,11 @@ defmodule AdventOfCode2023Test do
       .664.598..
       """
       assert AdventOfCode2023.Part2.day3_one(input) == 4361
+    end
+
+    test "day3_one full" do
+      input = File.read!("lib/fixtures/input3.txt")
+      assert AdventOfCode2023.Part2.day3_one(input) == 525119
     end
 
   end
