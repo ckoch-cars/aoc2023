@@ -76,7 +76,7 @@ defmodule AdventOfCode2023Test do
     assert AdventOfCode2023.day2_two(input) == 59795
   end
 
-  describe "Part2" do
+  describe "Day3" do
     test "day3_one test" do
       input = """
       467..114..
@@ -90,12 +90,53 @@ defmodule AdventOfCode2023Test do
       ...$.*....
       .664.598..
       """
-      assert AdventOfCode2023.Part2.day3_one(input) == 4361
+      assert AdventOfCode2023.Day3.day3_one(input) == 4361
     end
 
     test "day3_one full" do
       input = File.read!("lib/fixtures/input3.txt")
-      assert AdventOfCode2023.Part2.day3_one(input) == 525119
+      assert AdventOfCode2023.Day3.day3_one(input) == 525119
+    end
+
+    test "day3_two test with two in row" do
+      input = """
+      467..114..
+      ...*......
+      ..35..633.
+      ......#...
+      617*22....
+      .....+.58.
+      ..592.....
+      ......755.
+      ...$.*....
+      .664.598..
+      """
+
+      # gears 467 * 35 + 755 * 598
+      assert AdventOfCode2023.Day3.day3_two(input) == 481409
+    end
+
+    test "day3_two test with adjacent" do
+      input = """
+      467..114..
+      ...*......
+      ..35..633.
+      ......#...
+      617*......
+      .....+.58.
+      ..592.....
+      ......755.
+      ...$.*....
+      .664.598..
+      """
+
+      # gears 467 * 35 + 755 * 598
+      assert AdventOfCode2023.Day3.day3_two(input) == 467835
+    end
+
+    test "day3_two full" do
+      input = File.read!("lib/fixtures/input3.txt")
+      assert AdventOfCode2023.Day3.day3_two(input) == 525119
     end
 
   end
